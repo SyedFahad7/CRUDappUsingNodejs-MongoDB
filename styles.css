@@ -1,0 +1,126 @@
+@keyframes moveUpDown {
+    from {
+        background-position-y: 0;
+    }
+    to {
+        background-position-y: 100px; /* Adjust this value to control the amount of up and down movement */
+    }
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('crud2.jpeg');
+    background: position 100px;;
+    background-repeat:repeat;
+    background-size:contain;
+    height: 100%;
+    width: 100%;
+    animation: moveUpDown 2s infinite alternate;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0.5;
+    transition: opacity 0.5s ease; 
+    animation: fadeIn 10s ease;
+}
+
+.container:hover {
+    opacity: 1; 
+}
+
+form {
+    margin-bottom: 20px;
+    transition: opacity 0.5s ease;
+}
+
+form:hover {
+    opacity: 0.9;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgb(0, 0, 0);
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+textarea:hover{
+    transform: scale(1.04);
+
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+button:hover {
+    background-color: #ff0000;
+}
+
+#blogsList {
+    border-top: 1px solid #000000;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.blog-entry {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #000000;
+    transition: transform 0.3s ease; 
+}
+
+.blog-entry:hover {
+    transform: scale(1.05); 
+
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.me{
+    color: #000000;
+    background-color: #ff0000;
+    text-align:center;
+    font-size: large;
+    font-family: "https://fonts.google.com/specimen/Exo+2";
+    opacity: 0.6;
+    animation: fadeIn 8s ease;
+}
+.me:hover{
+    opacity: 1;
+    transform: scale(1.1)
+    
+}
+.h1{
+    color: #000000;
+    background-color: #fa6400;
+    text-align: center;
+    font-family: "https://fonts.google.com/specimen/Bebas+Neue";
+    opacity: 0.6;
+    animation: fadeIn 4s ease;
+}
+.h1:hover{
+    opacity: 1;
+    transform: scale(1.1)
+}
