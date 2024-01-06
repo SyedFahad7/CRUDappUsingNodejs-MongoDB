@@ -99,8 +99,7 @@ button:hover {
     }
 }
 .me{
-    color: #000000;
-    background-color: #ff0000;
+    color: #f4d718;
     text-align:center;
     font-size: large;
     font-family: "https://fonts.google.com/specimen/Exo+2";
@@ -113,8 +112,7 @@ button:hover {
     
 }
 .h1{
-    color: #000000;
-    background-color: #fa6400;
+    color: white;
     text-align: center;
     font-family: "https://fonts.google.com/specimen/Bebas+Neue";
     opacity: 0.6;

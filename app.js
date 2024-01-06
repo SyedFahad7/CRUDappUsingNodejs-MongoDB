@@ -16,21 +16,20 @@ mongoose.connect(
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  },
-  (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Connected to MongoDB");
-    }
   }
-);
+)
+  .then(() => {
+    console.log("Connected successfully");
+  })
+  .catch((err) => {
+    console.error("Error in connection:", err.message);
+  });
 
 // Serve HTML, CSS, and JavaScript as static files
 app.use(express.static(__dirname));
 
 // Serve the HTML file when accessing the root URL
-app.get("/", (req, res) => {
+app.get("", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
