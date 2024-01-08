@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const Blog = require("./models/Blog");  
 const blogRouter = require("./routes/BlogRoutes");
 
 const app = express();
@@ -10,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/blogs", blogRouter);
 
-// Configures mongoose.....
+
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/CRUD",
   {
@@ -42,6 +43,19 @@ app.get("/client.js", (req, res) => {
 app.get("/styles.css", (req, res) => {
   res.sendFile(__dirname + "/styles.css");
 });
+
+// Add a new route to fetch all blogs
+app.get("/api/blogs", async (req, res) => {
+  try {
+    const blogs = await Blog.find({}, { title: 1, content: 1 });
+    console.log("Retrieved blogs:", blogs); // Add this line for debugging
+    res.status(200).json({ blogs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 // Listen on the specified port
 app.listen(PORT, () => {

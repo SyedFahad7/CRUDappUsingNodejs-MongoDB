@@ -25,18 +25,26 @@ function createBlog() {
     .then(response => response.json())
     .then(data => {
       console.log("Blog created:", data);
-      fetchBlogs(); // Refresh the list of blogs after creating a new one
+      fetchAllBlogs(); // Refresh the list of blogs after creating a new one
     })
     .catch(error => console.error("Error creating blog:", error));
 }
 
 
 // Function to fetch all blogs
-function fetchBlogs() {
-  fetch("/api/blogs")
-    .then(response => response.json())
-    .then(data => displayBlogs(data.data)) // Use data.data to get the array of blogs
-    .catch(error => console.error("Error fetching blogs:", error));
+async function fetchAllBlogs() {
+  try {
+    const response = await fetch("http://localhost:3001/api/blogs");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Fetched data:", data); 
+    displayBlogs(data.blogs); 
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+  }
 }
 
 // Function to display the list of blogs
@@ -70,4 +78,15 @@ function deleteBlog(blogId) {
       fetchBlogs(); 
     })
     .catch(error => console.error("Error deleting blog:", error));
+}
+function showBlogContent(blogId) {
+  fetch(`http://localhost:3001/api/blogs/${blogId}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log("Blog Content Response:", data); // Log the entire response
+      const blog = data.blogs[0];
+      const content = blog.body || blog.content || "No content available";
+      alert(`Blog Content:\n\n${content}`);
+    })
+    .catch(error => console.error("Error fetching blog content:", error));
 }

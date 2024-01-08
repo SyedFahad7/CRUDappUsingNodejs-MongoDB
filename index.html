@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,8 @@
 <body>
     <div class="heading">
         <div class="h1">
-            <h1>Blog CRUD App</h1></div>
+            <h1>Blog CRUD App</h1>
+        </div>
         <div class="me">
             <h2>By: Fahad.Dev</h2>
         </div>
@@ -19,26 +19,84 @@
         <form id="blogForm">
             <label for="title">Title:</label>
             <input type="text" id="title" required>
-
             <label for="content">Content:</label>
             <textarea id="content" required></textarea>
-
             <button type="button" onclick="createBlog()">Create Blog</button>
-        </form>
-
         <div id="blogsList"></div>
-
-        <!-- Inside the loop where you display blogs in index.html -->
-        <div class="blog-entry">
-            
-            
-            <h3>${blog.title}</h3>
-            <p>${blog.content}</p>
-            <button onclick="deleteBlog('${blog._id}')">Delete</button>
-        </div>
-  
     </div>
+    <script>
+        // Fetch blogs when the page loads
+        fetchAllBlogs();
+    
+        // Function to fetch all blogs
+        function fetchAllBlogs() {
+            fetch("http://localhost:3001/api/blogs")
+                .then(response => response.json())
+                .then(data => displayBlogs(data.data)) // Use data.data to get the array of blogs
+                .catch(error => console.error("Error fetching blogs:", error));
+        }
+        // Function to display the list of blogs
+function displayBlogs(blogs) {
+    const blogsList = document.getElementById("blogsList");
+    blogsList.innerHTML = "";
+    blogs.forEach(blog => {
+        const blogElement = document.createElement("div");
+        blogElement.classList.add("blog-entry"); 
+        blogElement.innerHTML = `
+            <h3>${blog.title}</h3>
+            <p>${blog.content || ""}</p> <!-- Display content or an empty string if undefined -->
+            <button onclick="showBlogContent('${blog._id}')">Show Content</button>
+            <button onclick="deleteBlog('${blog._id}')">Delete</button>
+        `;
+        blogsList.appendChild(blogElement);
+    });
+}
 
-    <script src="client.js"></script>
-</body>
-</html>
+// Function to show blog content in a prompt
+function showBlogContent(blogId) {
+    fetch(`http://localhost:3001/api/blogs/${blogId}`)
+        .then(response => response.json())
+        .then(data => {
+            const blog = data.data[0];
+            const content = blog.body || blog.content || "No content available";
+            alert(`Blog Content:\n\n${content}`);
+        })
+        .catch(error => console.error("Error fetching blog content:", error));
+}
+        function createBlog() {
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+    
+            fetch("http://localhost:3001/api/blogs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ title, content })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Blog created:", data);
+                    fetchAllBlogs(); 
+                })
+                .catch(error => console.error("Error creating blog:", error));
+        }
+        function deleteBlog(blogId) {
+            console.log("Deleting blog with ID:", blogId);
+    
+            fetch(`http://localhost:3001/api/blogs/${blogId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Blog deleted:", data);
+                    fetchAllBlogs();
+                })
+                .catch(error => console.error("Error deleting blog:", error));
+        }
+    </script>
+    </body>
+    </html>
